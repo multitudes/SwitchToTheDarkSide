@@ -1,0 +1,95 @@
+//
+//  ContentView.swift
+//  SwitchToTheDarkSide
+//
+//  Created by Laurent B on 11/11/2021.
+//
+
+import SwiftUI
+
+struct ContentView: View {
+	var body: some View {
+		VStack {
+			Text("Appearance")
+				.font(.title)
+			AppearanceSelectionPicker()
+				.padding()
+		}
+	}
+}
+
+
+// check LocalizedStringKey instead of string for localisation!
+enum Appearance: LocalizedStringKey, CaseIterable, Identifiable {
+	case light
+	case dark
+	case automatic
+
+	var id: String { UUID().uuidString }
+}
+
+
+struct AppearanceSelectionPicker: View {
+	@Environment(\.colorScheme) var colorScheme
+	@State private var selectedAppearance = Appearance.automatic
+
+	var body: some View {
+		HStack {
+			Text("Appearance")
+				.padding()
+				.frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
+			Picker(selection: $selectedAppearance, label: Text("Appearance"))  {
+				ForEach(Appearance.allCases) { appearance in
+					Text(appearance.rawValue)
+						.tag(appearance)
+				}
+			}
+			.pickerStyle(WheelPickerStyle())
+			.frame(width: 150, height: 50, alignment: .center)
+			.padding()
+			.clipShape(RoundedRectangle(cornerRadius: 20, style: .continuous))
+			.frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
+		}
+		.padding()
+
+		.onChange(of: selectedAppearance, perform: { value in
+			print("changed to ", value)
+			switch value {
+				case .automatic:
+					UserDefaults.userInterfaceStyle = 0
+					SceneDelegate.shared?.window!.overrideUserInterfaceStyle =  .unspecified
+				case .light:
+					UserDefaults.userInterfaceStyle = 1
+					SceneDelegate.shared?.window!.overrideUserInterfaceStyle =  .light
+				case .dark:
+					UserDefaults.userInterfaceStyle = 2
+					SceneDelegate.shared?.window!.overrideUserInterfaceStyle =  .dark
+			}
+		})
+		.onAppear {
+			print(colorScheme)
+			print("UserDefaults.userInterfaceStyle",UserDefaults.userInterfaceStyle)
+			switch UserDefaults.userInterfaceStyle {
+				case 0:
+					selectedAppearance = .automatic
+				case 1:
+					selectedAppearance = .light
+				case 2:
+					selectedAppearance = .dark
+				default:
+					selectedAppearance = .automatic
+			}
+		}
+	}
+}
+
+
+struct ContentView_Previews: PreviewProvider {
+	static var previews: some View {
+		ContentView()
+	}
+}
+
+
+
+

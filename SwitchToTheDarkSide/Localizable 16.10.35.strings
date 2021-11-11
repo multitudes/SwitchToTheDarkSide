@@ -1,0 +1,11 @@
+/* 
+  Localizable.strings
+  testAppearance
+
+  Created by Laurent B on 11/11/2021.
+  
+*/
+"Appearance" = "Apparence";
+"light" = "Claire";
+"dark" = "Sombre";
+"automatic" = "Automatique";
