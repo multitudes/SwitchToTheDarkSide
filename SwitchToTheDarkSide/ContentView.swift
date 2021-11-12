@@ -5,6 +5,7 @@
 //  Created by Laurent B on 11/11/2021.
 //
 
+import Introspect
 import SwiftUI
 
 struct ContentView: View {
@@ -49,6 +50,9 @@ struct AppearanceSelectionPicker: View {
 			.padding()
 			.clipShape(RoundedRectangle(cornerRadius: 20, style: .continuous))
 			.frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
+			.introspectUIPickerView { picker in
+				picker.subviews[1].backgroundColor = UIColor.clear
+			}
 		}
 		.padding()
 
@@ -93,3 +97,16 @@ struct ContentView_Previews: PreviewProvider {
 
 
 
+extension View {
+	public func introspectUIPickerView(customize: @escaping (UIPickerView) -> ()) -> some View {
+		return inject(UIKitIntrospectionView(
+			selector: { introspectionView in
+				guard let viewHost = Introspect.findViewHost(from: introspectionView) else {
+					return nil
+				}
+				return Introspect.previousSibling(containing: UIPickerView.self, from: viewHost)
+			},
+			customize: customize
+		))
+	}
+}
