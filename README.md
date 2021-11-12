@@ -8,7 +8,7 @@ The app is localised and gives the user the option to change systemwide the sett
 It is the full solution. 
 I use SwiftUI and localised strings!
 
-![]("appearance.gif")
+![]("/SwitchToTheDarkSide/appearance.gif")
 
 ### sources:  
 
