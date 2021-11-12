@@ -14,7 +14,7 @@ I used the hint provided in the answer by [in the answer by Mojtaba Hosseini][1]
 
 
 I need to access the `SceneDelegate` and I use the same code as Mustapha with a small addition, when the app starts I need to read the settings stored in UserDefaults or @AppStorage etc.  
-Therefore I update the UI again on launch:   
+Therefore I update the UI again on launch with the `updateUserInterfaceStyle()` function:   
 
 ```swift
 private(set) static var shared: SceneDelegate?
