@@ -5,20 +5,32 @@
 //  Created by Laurent B on 11/11/2021.
 //
 
-import UIKit
+import Combine
 import SwiftUI
+import UIKit
+
+
+// this is again a new way to achieve the ligt/ dark mode switch
+extension UserDefaults {
+	@objc dynamic var userInterfaceStyle: Int {
+		return integer(forKey: "userInterfaceStyle")
+	}
+}
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
 	var window: UIWindow?
 
-	// for changing the appearance light and dark mode 
-	private(set) static var shared: SceneDelegate?
+	// for changing the appearance light and dark mode useing combine
+	var cancellable: AnyCancellable?
 
 	func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
 
-		// for the light and dark mode toggle
-		Self.shared = self
+		// for the light and dark mode toggle. observing the changes on userdefaults with a publisher
+		cancellable = UserDefaults.standard.publisher(for: \.userInterfaceStyle)
+			.sink { _ in
+				self.updateUserInterfaceStyle()
+			}
 		
 		// Use this method to optionally configure and attach the UIWindow `window` to the provided UIWindowScene `scene`.
 		// If using a storyboard, the `window` property will automatically be initialized and attached to the scene.
@@ -64,6 +76,19 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 		// to restore the scene back to its current state.
 	}
 
-
+	func updateUserInterfaceStyle() {
+		DispatchQueue.main.async {
+			switch UserDefaults.userInterfaceStyle {
+			case 0:
+				self.window?.overrideUserInterfaceStyle = .unspecified
+			case 1:
+				self.window?.overrideUserInterfaceStyle = .light
+			case 2:
+				self.window?.overrideUserInterfaceStyle = .dark
+			default:
+				self.window?.overrideUserInterfaceStyle = .unspecified
+			}
+		}
+	}
 }
 

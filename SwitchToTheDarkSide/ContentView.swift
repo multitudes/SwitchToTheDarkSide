@@ -61,13 +61,10 @@ struct AppearanceSelectionPicker: View {
 			switch value {
 				case .automatic:
 					UserDefaults.userInterfaceStyle = 0
-					SceneDelegate.shared?.window?.overrideUserInterfaceStyle =  .unspecified
 				case .light:
 					UserDefaults.userInterfaceStyle = 1
-					SceneDelegate.shared?.window?.overrideUserInterfaceStyle =  .light
 				case .dark:
 					UserDefaults.userInterfaceStyle = 2
-					SceneDelegate.shared?.window?.overrideUserInterfaceStyle =  .dark
 			}
 		})
 		.onAppear {
@@ -94,9 +91,7 @@ struct ContentView_Previews: PreviewProvider {
 	}
 }
 
-
-
-
+// using introspect!
 extension View {
 	public func introspectUIPickerView(customize: @escaping (UIPickerView) -> ()) -> some View {
 		return inject(UIKitIntrospectionView(
