@@ -28,7 +28,7 @@ func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options conn
 ```
 
 The function `updateUserInterfaceStyle()` will be in `SceneDelegate`.
-I use an extension of UserDefaults here to make it compatible with iOS13 (thanks to [twanni][3]!):    
+I use an extension of UserDefaults here (thanks to [twanni][3]!):    
 
 ```swift
 func updateUserInterfaceStyle() {
