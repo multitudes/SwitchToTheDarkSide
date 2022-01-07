@@ -12,6 +12,7 @@ The app support localisation and gives the user the option to change systemwide 
 
 I used the hint provided in the answer by [in the answer by Mojtaba Hosseini][1] to make my own version in SwiftUI (App with the AppDelegate lifecycle). I did not look into using iOS14's @main instead of SceneDelegate yet.
 
+This could work for iOS 13 too, the only problem is the `.onChange` modifiew which is not available until iOS14!
 
 I need to access the `SceneDelegate` and I use the same code as Mustapha with a small addition, when the app starts I need to read the settings stored in UserDefaults or @AppStorage etc.  
 Therefore I update the UI again on launch with the `updateUserInterfaceStyle()` function:   
